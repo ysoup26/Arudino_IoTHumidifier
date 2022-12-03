@@ -25,9 +25,9 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//디바이스 조회와 상태변경을 수행하는 메인 액티비티
 public class MainActivity extends AppCompatActivity {
-    String urlStr="https://lwlzk2ffu1.execute-api.us-east-1.amazonaws.com/api/devices/Humidifier";
-    final static String TAG = "AndroidAPITest";
+    String urlStr="https://lwlzk2ffu1.execute-api.us-east-1.amazonaws.com/api/devices/Humidifier"; //API주소, 디바이스를 미리 지정함.
     Timer timer;
     Button startGetBtn;
     Button stopGetBtn;
@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //clearTextView(); 처음에 내용 초기화 하는 부분
         updateDialog = new Dialog(MainActivity.this);       // Dialog 초기화
-        //dilaog01.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
-        updateDialog.setContentView(R.layout.update_dialog);             // xml 레이아웃 파일과 연결
+        updateDialog.setContentView(R.layout.update_dialog);       // xml 레이아웃 파일과 연결
+        
+        //2초마다 디바이스 조회후 출력
         startGetBtn = findViewById(R.id.startGetBtn);
-        startGetBtn.setEnabled(true);
+        startGetBtn.setEnabled(true); 
         startGetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 stopGetBtn.setEnabled(true);
             }
         });
+        //조회 중지
         stopGetBtn = findViewById(R.id.stopGetBtn);
         stopGetBtn.setEnabled(false);
         stopGetBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 stopGetBtn.setEnabled(false);
             }
         });
+        //디바이스 상태 업데이트-상태 선택하는 Dialog
         Button updateBtn = findViewById(R.id.updateBtn);
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,20 +84,14 @@ public class MainActivity extends AppCompatActivity {
         logGetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //2022-12-01 14:25:09
-                //2022-12-01 14:25:24
                 String urlstr = "https://lwlzk2ffu1.execute-api.us-east-1.amazonaws.com/api/devices/Humidifier/log";
-                if (urlstr == null || urlstr.equals("")) {
-                    Toast.makeText(MainActivity.this, "사물로그 조회 API URI 입력이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 Intent intent = new Intent(MainActivity.this, LogActivity.class);
                 intent.putExtra("getLogsURL", urlstr);
                 startActivity(intent);
             }
         });
     }
-    //조회 중지하면 내용 날리는 부분
+    //조회 중지하면 상태 표시 비우는 부분
     private void clearTextView() {
         TextView textHum = findViewById(R.id.text_hum);
         TextView textDevice = findViewById(R.id.text_device_onoff);
@@ -108,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
         textWater.setText(" - ");
         textMode.setText(" - ");
     }
+    //상태 변경 버튼을 누르면 다이어얼로그를 띄움
     public void showupdateDialog(){
-        updateDialog.show(); // 다이얼로그 띄우기
+        updateDialog.show();
         Button noBtn = updateDialog.findViewById(R.id.noBtn);
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,19 +114,15 @@ public class MainActivity extends AppCompatActivity {
                 updateDialog.dismiss(); // 다이얼로그 닫기
             }
         });
-        // 네 버튼
         Button yesBtn = updateDialog.findViewById(R.id.yesBtn);
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 원하는 기능 구현
-                Log.e("AndroidAPITest1","?");
                 EditText criteria= updateDialog.findViewById(R.id.criteria);
                 String c =criteria.getText().toString();
-                RadioGroup modes = updateDialog.findViewById(R.id.device_mode_);
+                RadioGroup modes = updateDialog.findViewById(R.id.device_mode_); //라디오버튼들의 값을 그룹으로 간단하게 가져옴
                 RadioButton mode = updateDialog.findViewById( modes.getCheckedRadioButtonId() );
                 String m = mode.getText().toString();
-                Log.e("AndroidAPITest1","?");
                 //update shadow
                 JSONObject payload = new JSONObject();
                 try {
@@ -145,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         tag2.put("tagName", "device_onoff");
                         String m_val=m;
                         if(m.equals("Auto"))
-                            m_val=""; //아두이노에서 Auto는 ""으로 다룸
+                            m_val=""; //아두이노에 ""을 보내야 auto라고 받아들이게 설정함
                         tag2.put("tagValue", m_val);
                         jsonArray.put(tag2);
                     }
@@ -156,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.e("AndroidAPITest1","payload="+payload);
                 if (payload.length() >0 ) {
+                    //어떤 상태 변경을 요청했는지 메인액티비티에 표시함
                     TextView rq_c=MainActivity.this.findViewById(R.id.request_criteria);
                     TextView rq_d=MainActivity.this.findViewById(R.id.request_device_onoff);
                     rq_c.setText(c);

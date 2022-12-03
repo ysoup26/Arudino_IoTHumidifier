@@ -16,6 +16,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+//API Put 요청에대한 클래스
 public class PutRequest extends AsyncTask<JSONObject, Void, String> {
     protected Activity activity;
     protected URL url;
