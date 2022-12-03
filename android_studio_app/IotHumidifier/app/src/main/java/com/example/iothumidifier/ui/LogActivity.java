@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import com.example.iothumidifier.R;
 import com.example.iothumidifier.ui.apicall.GetLog;
 
+//시작 날짜와 종료 날짜를 선택하고 그 사이 데이터를 출력하는 액티비티
 public class LogActivity extends AppCompatActivity {
 
     String getLogsURL;
@@ -28,7 +29,7 @@ public class LogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
-
+        //log에 대한 api url 획득
         Intent intent = getIntent();
         getLogsURL = intent.getStringExtra("getLogsURL");
         Log.i(TAG, "getLogsURL="+getLogsURL);

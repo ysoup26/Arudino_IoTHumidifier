@@ -208,6 +208,4 @@
             android:id="@+id/logGetBtn">
         </Button>
     </LinearLayout>
-
-
 </LinearLayout>

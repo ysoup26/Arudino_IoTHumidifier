@@ -38,12 +38,10 @@ public class UpdateShadow extends PutRequest {
 
         }
     }
+    //결과 json을 팝업으로 띄워줌
     @Override
     protected void onPostExecute(String result) {
         Toast.makeText(activity,result, Toast.LENGTH_SHORT).show();
     }
-
     
-
-
 }

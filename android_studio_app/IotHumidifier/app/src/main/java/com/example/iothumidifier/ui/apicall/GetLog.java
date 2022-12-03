@@ -48,7 +48,7 @@ public class GetLog extends GetRequest {
         TextView message = activity.findViewById(R.id.message2);
         message.setText("조회중...");
     }
-
+    //조회가 되면 onPostExecute가 실행됨
     @Override
     protected void onPostExecute(String jsonString) {
         TextView message = activity.findViewById(R.id.message2);
@@ -72,7 +72,7 @@ public class GetLog extends GetRequest {
         try {
             // 처음 double-quote와 마지막 double-quote 제거
             jsonString = jsonString.substring(1,jsonString.length()-1);
-            // \\\" 를 \"로 치환
+            // \\\" 를 \"로 치환-아두이노에서 payload생성시에 "를 표시하기 위해 사용한부분을 제거
             jsonString = jsonString.replace("\\\"","\"");
 
             Log.i(TAG, "jsonString="+jsonString);
@@ -83,7 +83,7 @@ public class GetLog extends GetRequest {
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = (JSONObject)jsonArray.get(i);
-
+                //json 데이터로부터 각각의 태그를 받아옴
                 Tag thing = new Tag(jsonObject.getString("humidity"),
                         jsonObject.getString("water"),
                         jsonObject.getString("device_onoff"),
@@ -117,7 +117,7 @@ public class GetLog extends GetRequest {
             self=s;
             timestamp = t;
         }
-
+        //log activity에 전달되는 문자열
         public String toString() {
             return String.format("[%s] humidity: %s, water: %s, device_onoff: %s, criteria: %s, self: %s "
                     , timestamp,humidity,water,device_onoff,criteria,self);

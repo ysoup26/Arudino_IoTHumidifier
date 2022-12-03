@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
+//API Get 요청에대한 클래스
 abstract public class GetRequest extends AsyncTask<String, Void, String> {
     final static String TAG = "AndroidAPITest";
     protected Activity activity;

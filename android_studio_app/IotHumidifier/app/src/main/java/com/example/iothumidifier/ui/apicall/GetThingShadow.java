@@ -55,13 +55,14 @@ public class GetThingShadow extends GetRequest {
         textCriteria.setText(state.get("criteria")+" %");
         Log.e(TAG,state.get("criteria")+" %");
         String mode;
-        if(state.get("self").equals("false"))
+        if(state.get("self").equals("false")) //디바이스의 모드는 true(on-off), false(auto)로 다룸.
             mode="Auto";
         else
             mode="Self";
         textMode.setText(mode);
     }
-
+    
+    //json 데이터를 문자열로 변경
     protected Map<String, String> getStateFromJSONString(String jsonString) {
         Map<String, String> output = new HashMap<>();
         try {
