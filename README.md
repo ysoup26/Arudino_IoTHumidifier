@@ -2,6 +2,7 @@
 -아두이노(MKR wifi 1010)와 [AWS](https://aws.amazon.com/ko/console/), 안드로이드 스튜디오를 이용하여 제작한 IoT가습기
 
 ## 실행 방법
+### 해당 깃헙의 파일을 다운 받아서 각 순서에 따라 실행함 
 - [Arduino](#1-arduino)
 - [AWS](#2-aws)
 - [APP](#3-app)
@@ -9,7 +10,9 @@
 ## 1. Arduino
 
 >회로 구성
-- (회로 이미지 넣기)
+
+![회로도]()
+
 
 >보드 매니저 및 라이브러리 설치
 - 보드 매니저: 툴>보드>보드 매니저>Arduino SAMD Boards
@@ -32,9 +35,6 @@
 
 
 ## 2. AWS
-
-
-## 3. APP
 
 ## 1. 디바이스 등록
 
@@ -127,3 +127,27 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 1. Eclipse용 AWS Toolkit을 이용하여 자바 람다 프로젝트 생성
 2. HumidLogHandler.java 파일을 복사하여 사용
 3. 람다 함수를 AWS 상에 업로드
+
+
+
+## 3. APP
+### 안드로이드 스튜디오에서 
+/Arduino_IoTHumidifier/android_studio_app/IoTHumidifier 실행
+
+> 앱 실행화면
+
+![메인 화면](/img/app_main.png)
+
+![로그 조회 화면](/img/app_log.png)
+
+
+> 앱 기능 설명
+- 메인화면
+  - 조회 시작 버튼: 일정시간마다 디바이스 정보를 조회하여 현재 상태에 출력
+  - 조회 종료 버튼: 일정시간마다 디바이스 정보를 조회하는 것을 멈춤
+  - 상태 변경 버튼: 디바이스의 상태를 변경하는 다이얼로그를 띄움
+  - 로그 조회 버튼: 로그를 조회할 수 있는 페이지를 띄움
+- 로그 조회 화면
+  - 조회 시작&종료 날짜, 시간 버튼: 날짜와 시간을 선택하는 타임피커를 띄움
+  - 로그 조회 시작: 시작, 종료 날짜 사이의 데이터를 리스트 형식으로 반환
+  
