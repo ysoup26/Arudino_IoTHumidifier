@@ -1,8 +1,40 @@
 # Arudino_IoTHumidifier
-아두이노와 AWS로 제작한 IoT가습기
+-아두이노(MKR wifi 1010)와 [AWS](https://aws.amazon.com/ko/console/), 안드로이드 스튜디오를 이용하여 제작한 IoT가습기
 
--실행 방법: 
+## 실행 방법
+- [Arduino](#1-arduino)
+- [AWS](#2-aws)
+- [APP](#3-app)
 
+## 1. Arduino
+
+>회로 구성
+- (회로 이미지 넣기)
+
+>보드 매니저 및 라이브러리 설치
+- 보드 매니저: 툴>보드>보드 매니저>Arduino SAMD Boards
+- 라이브러리:  툴>라이브러리 관리
+  - WiFiNINA (or WiFi101 for the MKR1000)
+  - ArduinoBearSSL
+  - ArduinoECCX08
+  - ArduinoMqttClient
+  - Arduino Cloud Provider Examples
+
+>디바이스 인증서 생성
+1. ArduinoECCX08-Tools-ECCX08CSR 파일을 보드에 업로드하여 x.509 인증서 획득
+2. common Name을 입력하고 나온 인증서 내용을 csr.txt라는 파일을 만들어 저장
+3. AWS 디바이스 생성시에 해당 csr.txt를 인증서로 사용
+
+>코드 설정 및 실행
+1. arduino/IoTHumidifier/IoTHumidifier.ino 오픈
+2. arduino_secrets.h 파일의 변수들 수정(wifi, pass, endpoint ..)
+3. 파일 실행
+
+
+## 2. AWS
+
+
+## 3. APP
 
 ## 1. 디바이스 등록
 
