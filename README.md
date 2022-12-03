@@ -5,9 +5,10 @@
 ### 해당 깃헙의 파일을 다운 받아서 각 순서에 따라 실행함 
 - [Arduino](#1-arduino)
 - [AWS](#2-aws)
-- [APP](#3-app)
+- [API](#3-api)
+- [APP](#4-app)
 
-## 1. Arduino
+# 1. Arduino
 
 >회로 구성
 
@@ -34,7 +35,7 @@
 3. 파일 실행
 
 
-## 2. AWS
+# 2. AWS
 
 ## 1. 디바이스 등록
 
@@ -128,9 +129,102 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 2. HumidLogHandler.java 파일을 복사하여 사용
 3. 람다 함수를 AWS 상에 업로드
 
+# 3. API
+### 업로드한 Lambda 함수를 이용하여 API 구축
+
+![api 구조](/img/api_structure.png)
+
+>API 구조 설계
+1.  AWS>API Gateway에서 api 생성>Rest API 선택
+2.  작업을 선택하여 사진과 동일한 api 구조를 작성함
+3.  메소드는 리소스를 클릭한 후, 작업>메소드 생성> 해당하는 Lambda함수와 연결 
+
+>API 구조 설계 세부
+## /device/{device}/ GET
+1. GET>통합요청 선택
+2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
+3. 템플릿 내용에 아래 코드 입력 후 저장
+<pre>
+<code>
+  {
+    "device": "$input.params('device')"
+  } 
+</code>
+</pre>
+
+## /device/{device}/ PUT
+1. API>모델 선택
+2. 모델 생성> 모델 이름: UpdateDeviceInput , 콘텐츠 유형: application/json, 모델 스키마에 아래 코드 입력
+<pre>
+<code>
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "UpdateDeviceInput",
+  "type" : "object",
+  "properties" : {
+      "tags" : {
+          "type": "array",
+          "items": {
+              "type": "object",
+              "properties" : {
+                "tagName" : { "type" : "string"},
+                "tagValue" : { "type" : "string"}
+              }
+          }
+      }
+  }
+}
+</code>
+</pre>
+4. PUT>통합요청 선택
+5. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
+6. 템플릿 내용에 아래 코드 입력 후 저장
+<pre>
+<code>
+  #set($inputRoot = $input.path('$'))
+{
+    "device": "$input.params('device')",
+    "tags" : [
+    ##TODO: Update this foreach loop to reference array from input json
+        #foreach($elem in $inputRoot.tags)
+        {
+            "tagName" : "$elem.tagName",
+            "tagValue" : "$elem.tagValue"
+        } 
+        #if($foreach.hasNext),#end
+        #end
+    ]
+  }
+</code>
+</pre>
+
+## /device/{device}/log GET 
+1. GET>통합요청 선택
+2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
+3. 템플릿 내용에 아래 코드 입력 후 저장
+<pre>
+<code>
+  {
+  "device": "$input.params('device')",
+  "from": "$input.params('from')",
+  "to":  "$input.params('to')"
+  }
+</code>
+</pre>
+4. GET>메소드요청 선택
+5. URL 쿼리 문자열 파라미터 선택
+6. 쿼리 문자열 추가로 from과 to 각각 추가
+
+> API배포
+### 만든 API를 링크 형식으로 사용할 수 있도록 배포
+1. 리소스를 선택하고 작업> CORS 활성화 > CORS 활성화 및 기존의 CORS 헤더 대체 선택
+2. 1의 내용을 3개의 리소스에 각각 수행
+3. 작업>API 배포 선택
+4. 배포 스테이지를 [새 스테이지]로 선택하고 api 입력
+5. 배포 선택 후 주어진 링크로 테스트
 
 
-## 3. APP
+# 4. APP
 ### 안드로이드 스튜디오에서 
 /Arduino_IoTHumidifier/android_studio_app/IoTHumidifier 실행
 
