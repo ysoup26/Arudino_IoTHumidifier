@@ -2,20 +2,23 @@
 -아두이노(MKR wifi 1010)와 [AWS](https://aws.amazon.com/ko/console/), 안드로이드 스튜디오를 이용하여 제작한 IoT가습기
 
 ## 실행 방법
-### 해당 깃헙의 파일을 다운 받아서 각 순서에 따라 실행함 
-- [Arduino](#1-arduino)
-- [AWS](#2-aws)
-- [API](#3-api)
-- [APP](#4-app)
+### 해당 깃헙의 파일을 다운 받아서 각 링크를 클릭하여 실행함 
+[Arduino](#1-arduino)
+
+[AWS](#2-aws)
+
+[API](#3-api)
+
+[APP](#4-app)
 
 # 1. Arduino
 
->회로 구성
+## 회로 구성
 
 ![회로도](/img/fritzing.png)
 
 
->보드 매니저 및 라이브러리 설치
+## 보드 매니저 및 라이브러리 설치
 - 보드 매니저: 툴>보드>보드 매니저>Arduino SAMD Boards
 - 라이브러리:  툴>라이브러리 관리
   - WiFiNINA (or WiFi101 for the MKR1000)
@@ -24,12 +27,12 @@
   - ArduinoMqttClient
   - Arduino Cloud Provider Examples
 
->디바이스 인증서 생성
+## 디바이스 인증서 생성
 1. ArduinoECCX08-Tools-ECCX08CSR 파일을 보드에 업로드하여 x.509 인증서 획득
 2. common Name을 입력하고 나온 인증서 내용을 csr.txt라는 파일을 만들어 저장
 3. AWS 디바이스 생성시에 해당 csr.txt를 인증서로 사용
 
->코드 설정 및 실행
+## 코드 설정 및 실행
 1. arduino/IoTHumidifier/IoTHumidifier.ino 오픈
 2. arduino_secrets.h 파일의 변수들 수정(wifi, pass, endpoint ..)
 3. 파일 실행
@@ -134,17 +137,19 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 
 ![api 구조](/img/api_structure.png)
 
->API 구조 설계
+## API 구조 설계
 1.  AWS>API Gateway에서 api 생성>Rest API 선택
 2.  작업을 선택하여 사진과 동일한 api 구조를 작성함
 3.  메소드는 리소스를 클릭한 후, 작업>메소드 생성> 해당하는 Lambda함수와 연결 
 
->API 구조 설계 세부
-## /device/{device}/ GET
+## API 구조 설계 세부
+
+## 1. /device/{device}/ GET
 ### GetDeviceHandler.java의 람다함수와 연결
 1. GET>통합요청 선택
 2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
 3. 템플릿 내용에 아래 코드 입력 후 저장
+
 <pre>
 <code>
   {
@@ -153,10 +158,11 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 </code>
 </pre>
 
-## /device/{device}/ PUT
+## 2. /device/{device}/ PUT
 ### UpdateDeviceHandler.java의 람다함수와 연결
 1. API>모델 선택
 2. 모델 생성> 모델 이름: UpdateDeviceInput , 콘텐츠 유형: application/json, 모델 스키마에 아래 코드 입력
+
 <pre>
 <code>
 {
@@ -178,9 +184,11 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 }
 </code>
 </pre>
+
 4. PUT>통합요청 선택
 5. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
 6. 템플릿 내용에 아래 코드 입력 후 저장
+
 <pre>
 <code>
   #set($inputRoot = $input.path('$'))
@@ -200,11 +208,13 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 </code>
 </pre>
 
-## /device/{device}/log GET 
+## 3. /device/{device}/log GET 
 ### HumidLogHandler.java의 람다함수와 연결
+
 1. GET>통합요청 선택
 2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
 3. 템플릿 내용에 아래 코드 입력 후 저장
+
 <pre>
 <code>
   {
@@ -214,12 +224,14 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
   }
 </code>
 </pre>
+
 4. GET>메소드요청 선택
 5. URL 쿼리 문자열 파라미터 선택
 6. 쿼리 문자열 추가로 from과 to 각각 추가
 
-> API배포
+## API배포
 ### 만든 API를 링크 형식으로 사용할 수 있도록 배포
+
 1. 리소스를 선택하고 작업> CORS 활성화 > CORS 활성화 및 기존의 CORS 헤더 대체 선택
 2. 1의 내용을 3개의 리소스에 각각 수행
 3. 작업>API 배포 선택
@@ -231,13 +243,14 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 ### 안드로이드 스튜디오에서 
 /Arduino_IoTHumidifier/android_studio_app/IoTHumidifier 실행
 
-> 앱 실행화면
+## 앱 실행화면
 
 ![메인 화면](/img/app_main.png)
 ![로그 조회 화면](/img/app_log.png)
 
 
-> 앱 기능 설명
+##  앱 기능 설명
+
 - 메인화면
   - 조회 시작 버튼: 일정시간마다 디바이스 정보를 조회하여 현재 상태에 출력
   - 조회 종료 버튼: 일정시간마다 디바이스 정보를 조회하는 것을 멈춤
