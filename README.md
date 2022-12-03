@@ -11,7 +11,7 @@
 
 >회로 구성
 
-![회로도](/img/frizting.png)
+![회로도](/img/fritzing.png)
 
 
 >보드 매니저 및 라이브러리 설치
