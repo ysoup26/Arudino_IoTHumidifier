@@ -11,7 +11,7 @@
 
 >회로 구성
 
-![회로도]()
+![회로도](/img/frizting.png)
 
 
 >보드 매니저 및 라이브러리 설치
@@ -137,7 +137,6 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 > 앱 실행화면
 
 ![메인 화면](/img/app_main.png)
-
 ![로그 조회 화면](/img/app_log.png)
 
 
