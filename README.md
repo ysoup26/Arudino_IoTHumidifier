@@ -141,6 +141,7 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 
 >API 구조 설계 세부
 ## /device/{device}/ GET
+### GetDeviceHandler.java의 람다함수와 연결
 1. GET>통합요청 선택
 2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
 3. 템플릿 내용에 아래 코드 입력 후 저장
@@ -153,6 +154,7 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 </pre>
 
 ## /device/{device}/ PUT
+### UpdateDeviceHandler.java의 람다함수와 연결
 1. API>모델 선택
 2. 모델 생성> 모델 이름: UpdateDeviceInput , 콘텐츠 유형: application/json, 모델 스키마에 아래 코드 입력
 <pre>
@@ -199,6 +201,7 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 </pre>
 
 ## /device/{device}/log GET 
+### HumidLogHandler.java의 람다함수와 연결
 1. GET>통합요청 선택
 2. 매핑 템플릿>정의된 템플릿이 없는 경우(권장) 선택
 3. 템플릿 내용에 아래 코드 입력 후 저장
