@@ -90,6 +90,8 @@ SQL문 : SELECT *, 'Humidifier' as device FROM '$aws/things/Humidifier/shadow/up
 
 ## 5. 로그 조회 API
 
+### Lambda 함수
+
 1. Eclipse용 AWS Toolkit을 이용하여 자바 람다 프로젝트 생성
 2. HumidLogHandler.java 파일을 복사하여 사용
 3. 람다 함수를 AWS 상에 업로드
