@@ -93,16 +93,37 @@
         android:id="@+id/log_start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그 조회 시작" />
-    <ListView
-        android:id="@+id/logList"
+        android:text="로그 조회 시작(리스트)" />
+    <Button
+        android:id="@+id/log_start_graph_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ff99ccee"
-        android:textColor="#ff0000ff"
-        android:textSize="12dp"></ListView>
+        android:text="로그 조회 시작(그래프)" />
     <TextView
         android:id="@+id/message2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chart"
+        android:orientation="vertical">
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/logGraph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginTop="30dp" />
+        <ListView
+            android:id="@+id/logList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ff99ccee"
+            android:textColor="#ff0000ff"
+            android:layout_weight="1"
+            android:textSize="12dp"></ListView>
+</LinearLayout>
+
+
 </LinearLayout>
