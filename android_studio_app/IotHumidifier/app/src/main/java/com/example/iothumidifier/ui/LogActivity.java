@@ -154,7 +154,11 @@ public class LogActivity extends AppCompatActivity {
                 // 배경 색 (Adobe에서 색상조합표를 찾아보고 RGB 값을 따 왔음)
                 TextView message = findViewById(R.id.message2);
                 message.setText("조회중...");
-                DrawGraph();
+                //DrawGraph();
+                //액티비티 실행
+                Intent intent = new Intent(LogActivity.this, LogGraphActivity.class);
+                //intent.putExtra("getLogsURL", urlstr);
+                startActivity(intent);
 
             }
         });

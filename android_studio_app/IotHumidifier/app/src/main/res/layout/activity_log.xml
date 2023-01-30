@@ -108,13 +108,13 @@
         android:layout_height="match_parent"
         android:id="@+id/chart"
         android:orientation="vertical">
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/logGraph"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_marginTop="30dp" />
+<!--        <com.github.mikephil.charting.charts.LineChart-->
+<!--            android:id="@+id/logGraph"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginTop="30dp" />-->
         <ListView
             android:id="@+id/logList"
             android:layout_width="wrap_content"
